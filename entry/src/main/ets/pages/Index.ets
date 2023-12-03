@@ -19,6 +19,7 @@ struct Index {
         })
 
       TargetList()
+        .height(CommonConstants.LIST_BOARD_HEIGHT)
 
     }
     .width(CommonConstants.FULL_WIDTH)

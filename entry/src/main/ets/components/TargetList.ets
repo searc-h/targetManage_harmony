@@ -6,13 +6,13 @@ import  { CommonConstants } from '../common/constant/CommonConstant'
 @Component
 export default struct TargetList{
   @Provide overAllProgressChanged: boolean = true;
+
   @State targetData : TargetItem[] = TargetModel.getData();
-  // 这里使用Set集合来作为状态，可能引发问题
-  @State selectArray: Set<number> = new Set();
+
+  @State selectArray: number[] = new Array();
 
   @State isEditMode : boolean = false
   @State selectAll : boolean = false
-  @State clickIndex : number = -1
 
   build(){
     Column(){
@@ -31,23 +31,22 @@ export default struct TargetList{
         right: $r('app.float.list_padding_right')
       })
 
-      // List({ space: CommonConstants.LIST_SPACE }) {
-      //   ForEach(this.targetData, (item: TargetItem, index: number | undefined) => {
-      //     ListItem() {
-      //       TargetItemComponent({
-      //         taskItem: item,
-      //         index: index,
-      //         selectArray: $selectArray,
-      //         isEditMode: this.isEditMode,
-      //         clickIndex: $clickIndex
-      //       })
-      //     }
-      //   }, (item: TargetItem) => JSON.stringify(item))
-      // }
-      // .edgeEffect(EdgeEffect.None)
-      // .margin({ top: $r('app.float.list_margin_top') })
-      // .width(CommonConstants.FULL_WIDTH)
-      // .height(CommonConstants.LIST_HEIGHT)
+      List({ space: CommonConstants.LIST_SPACE }) {
+        ForEach(this.targetData, (item: TargetItem) => {
+          ListItem() {
+            TargetItemComponent({
+              taskItem: item,
+              index: item.id,
+              selectArray: $selectArray,
+              isEditMode: this.isEditMode,
+            })
+          }
+        }, (item: TargetItem) => JSON.stringify(item.id))
+      }
+      .edgeEffect(EdgeEffect.None)
+      .margin({ top: $r('app.float.list_margin_top') })
+      .width(CommonConstants.FULL_WIDTH)
+      .height(CommonConstants.LIST_HEIGHT)
 
       Blank()
     }
@@ -55,16 +54,16 @@ export default struct TargetList{
   }
   // 全选或者全部取消
   selectAllOrCancel(cancel : boolean){
-    if(cancel) {
-      this.selectArray.clear();
-    }else {
-       this.targetData.forEach(item=>this.selectArray.add(item.id))
+    if(cancel){
+      this.selectArray = this.targetData.map(i=>i.id)
+    }else{
+      this.selectArray = []
     }
   }
 
   // 计算属性，计算当前是否全选状态
   isSelectAll() : boolean {
-    if(this.selectArray.size === this.targetData.length) {
+    if(this.selectArray.length >= this.targetData.length) {
       this.selectAll = true
       return true
     }
@@ -91,7 +90,7 @@ export default struct TargetList{
             left: $r('app.float.operate_button_margin')
           })
         Checkbox()
-          .select(this.selectAll)
+          .select(this.isSelectAll())
           .selectedColor($r('app.color.main_blue'))
           .width(CommonConstants.CHECKBOX_WIDTH)
           .onClick(() => {

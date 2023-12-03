@@ -5,9 +5,9 @@ const TAG = '[TargetModel]'
 
 export class TargetModel {
 
-  private default = new TargetItem(0 ,'asd', 0.2, '123123')
   private targetData : Array<TargetItem> = [
-    this.default
+    new TargetItem(0 ,'0000', 0.2, '123123'),
+    new TargetItem(1 ,'1111', 0.2, '123123')
   ]
 
   getData() : Array<TargetItem> {

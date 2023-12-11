@@ -17,6 +17,7 @@ export default struct TargetItemComponent {
   @State sliderMode: number = CommonConstants.DEFAULT_SLIDER_MODE;
   @State isExpanded: boolean = true;
 
+  // each child need to know the selected array to make sure whether it self be checked.
   @Link selectArray: Array<number>;
 
   @Consume overAllProgressChanged: boolean;
@@ -99,7 +100,6 @@ export default struct TargetItemComponent {
                 if(!this.selectArray.includes(this.index))
                   this.selectArray.push(this.index)
               }
-
             })
         }
         .width(CommonConstants.FULL_WIDTH)

@@ -1,14 +1,14 @@
 export class TargetItem {
 
-  id :  number;
+  id?:  number;
 
   taskName: string;
 
-  updateDate: string;
+  updateDate?: string;
 
-  progressValue: number;
+  progressValue?: number;
 
-  constructor(id: number ,taskName: string, progressValue?: number, updateDate?: string) {
+  constructor(taskName: string ,id?: number, progressValue?: number, updateDate?: string) {
     this.id = id;
     this.taskName = taskName;
     this.progressValue = progressValue;

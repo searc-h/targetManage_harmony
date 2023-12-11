@@ -6,8 +6,6 @@ const TAG = '[TargetModel]'
 export class TargetModel {
 
   private targetData : Array<TargetItem> = [
-    new TargetItem(0 ,'0000', 0.2, '123123'),
-    new TargetItem(1 ,'1111', 0.2, '123123')
   ]
 
   getData() : Array<TargetItem> {
@@ -18,7 +16,7 @@ export class TargetModel {
     if (!data) {
       return console.log("Add Data Error : " + data);
     }
-    data.id = this.targetData.length + 1
+    data.id = data.id || this.targetData.length + 1
     this.targetData.push(data);
   }
 
@@ -37,6 +35,15 @@ export class TargetModel {
 
     this.targetData[index].progressValue = updateProcess
     this.targetData[index].updateDate = updateDate
+    return true
+  }
+
+  getTotalNumber(){
+    return this.targetData.length
+  }
+
+  getCompletedNumber(){
+    return this.targetData.filter(i=>i.progressValue >= 100).length
   }
 
 }

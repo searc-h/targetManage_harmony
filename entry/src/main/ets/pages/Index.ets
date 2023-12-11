@@ -1,10 +1,17 @@
 import {CommonConstants} from '../common/constant/CommonConstant'
+import getCurrentTime from '../common/utils/DateUtil';
 import TargetList from '../components/TargetList'
+import TargetModel from '../model/targetModel'
 
 @Entry
 @Component
 struct Index {
-  @State message: string = 'Hello World'
+
+  @State taskTotalNumber : number = 0;
+  @State completedNumber : number = 0;
+  @State latestUpdateDate : string =  "";
+
+  @Provide @Watch("onProgressChanged") overAllProgressChanged: boolean = true;
 
   build() {
     Column() {
@@ -25,5 +32,18 @@ struct Index {
     .width(CommonConstants.FULL_WIDTH)
     .height(CommonConstants.FULL_HEIGHT)
     .backgroundColor($r('app.color.index_background'))
+  }
+
+  /**
+   * Listening targetData change including length and progress of each item.
+   */
+  onProgressChanged() {
+    this.taskTotalNumber = TargetModel.getTotalNumber();
+    this.completedNumber = TargetModel.getCompletedNumber();
+    this.latestUpdateDate = getCurrentTime();
+
+    console.log("change : " + this.taskTotalNumber);
+    console.log("change : " + this.completedNumber);
+    console.log("change : " + this.latestUpdateDate);
   }
 }

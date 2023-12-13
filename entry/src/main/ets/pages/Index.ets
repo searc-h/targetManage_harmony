@@ -2,7 +2,7 @@ import {CommonConstants} from '../common/constant/CommonConstant'
 import getCurrentTime from '../common/utils/DateUtil';
 import TargetList from '../components/TargetList'
 import TargetModel from '../model/targetModel'
-
+import TargetInfo from '../components/TargetInfo'
 @Entry
 @Component
 struct Index {
@@ -24,6 +24,12 @@ struct Index {
           top : 12,
           bottom : 12
         })
+
+      TargetInfo({
+        taskTotalNumber : this.taskTotalNumber,
+        completedNumber : this.completedNumber,
+        latestUpdateDate : this.latestUpdateDate
+      })
 
       TargetList()
         .height(CommonConstants.LIST_BOARD_HEIGHT)
